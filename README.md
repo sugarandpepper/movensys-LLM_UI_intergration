@@ -11,8 +11,9 @@ file is just "clone it and get it running."
 
 - [`src/llm_ui`](src/llm_ui) — UI package: `bridge_node` (FastAPI/rclpy) + the React frontend
 - [`src/ui_interfaces`](src/ui_interfaces) — shared ROS2 message contract
-- [`../Mobile_LLM`](../Mobile_LLM) + `mobile_llm_node` — real LLM node (Qwen2.5-7B-Instruct +
-  qwen-robot-lora-v2-modify), implementing the same `ui_interfaces` contract
+- [`src/mobile_llm_node`](src/mobile_llm_node) — real LLM node (Qwen2.5-7B-Instruct +
+  qwen-robot-lora-v2-modify, both pulled from HuggingFace at runtime), implementing the same
+  `ui_interfaces` contract
 
 ## Prerequisites
 
@@ -23,12 +24,12 @@ file is just "clone it and get it running."
 - **[Ollama](https://ollama.com)** running locally, with `qwen2.5:7b` pulled (used by
   `mobile_llm_node` for chat/command classification and plain chat replies)
 - For `mobile_llm_node`: a CUDA GPU + torch/transformers/peft/bitsandbytes (see
-  `../Mobile_LLM/requirements.txt`)
+  `src/mobile_llm_node/requirements.txt`)
 
 ## One-time setup
 
 ```bash
-git clone -b humble https://github.com/Juunghyeon/LLM_UI.git
+git clone git@github.com:sugarandpepper/movensys-LLM_UI_intergration.git LLM_UI
 cd LLM_UI
 
 source /opt/ros/humble/setup.bash
@@ -38,6 +39,9 @@ pip install empy==3.3.4 lark catkin_pkg colcon-common-extensions numpy
 
 # Runtime deps for bridge_node (FastAPI/WebSocket/map yaml parsing)
 pip install -r src/llm_ui/requirements.txt
+
+# Runtime deps for mobile_llm_node (torch/transformers/peft/bitsandbytes/ollama)
+pip install -r src/mobile_llm_node/requirements.txt
 
 # Frontend deps
 npm install --prefix src/llm_ui/frontend

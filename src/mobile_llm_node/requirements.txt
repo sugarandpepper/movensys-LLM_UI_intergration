@@ -1,0 +1,8 @@
+# Python (pip) dependencies for mobile_llm_node's inference path (chat_v2_node.py):
+# Qwen2.5-7B-Instruct + the qwen-robot-lora-v2-modify LoRA adapter, both pulled from
+# HuggingFace at runtime -- no local model files needed.
+torch>=2.1.0
+transformers>=4.40.0
+peft>=0.10.0
+bitsandbytes>=0.43.0
+ollama>=0.1.0
