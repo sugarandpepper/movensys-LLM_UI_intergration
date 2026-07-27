@@ -1,0 +1,7 @@
+# Python (pip) dependencies for the llm_ui package's bridge_node (FastAPI/uvicorn side).
+# rclpy, geometry_msgs, etc. come from the sourced ROS2 Humble install, not pip.
+fastapi==0.115.12
+uvicorn[standard]==0.34.2
+websockets==16.1
+PyYAML==6.0.3
+python-multipart==0.0.20

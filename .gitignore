@@ -1,0 +1,20 @@
+# colcon build artifacts
+build/
+install/
+log/
+
+# Python
+__pycache__/
+*.pyc
+*.egg-info/
+
+# ROS2 logs
+~/.ros/
+
+# Editor / OS
+.vscode/
+.idea/
+.DS_Store
+
+# real credentials -- never commit
+.env.external

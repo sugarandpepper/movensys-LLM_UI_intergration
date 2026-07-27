@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<?xml-model href="http://download.ros.org/schema/package_format3.xsd" schematypens="http://www.w3.org/2001/XMLSchema"?>
+<package format="3">
+  <name>ui_interfaces</name>
+  <version>0.0.1</version>
+  <description>
+    Shared ROS2 message contract between the UI package (llm_ui) and whatever
+    it talks to on the other side of a ROS2 topic -- the LLM side
+    (mobile_llm_node) today, and the simulation/execution side going forward.
+    This is the only thing either side needs to agree on with llm_ui.
+  </description>
+  <maintainer email="ahdtld55@gmail.com">jh</maintainer>
+  <license>Apache-2.0</license>
+
+  <buildtool_depend>ament_cmake</buildtool_depend>
+
+  <build_depend>rosidl_default_generators</build_depend>
+  <exec_depend>rosidl_default_runtime</exec_depend>
+  <member_of_group>rosidl_interface_packages</member_of_group>
+
+  <export>
+    <build_type>ament_cmake</build_type>
+  </export>
+</package>
