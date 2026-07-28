@@ -49,6 +49,8 @@ function fitView(meta: MapMetadata, container: HTMLElement): ViewState {
 interface MapViewerProps {
   clicks: ClickPoint[]
   setClicks: React.Dispatch<React.SetStateAction<ClickPoint[]>>
+  sections: Section[]
+  setSections: React.Dispatch<React.SetStateAction<Section[]>>
 }
 
 interface PendingPoint {
@@ -72,7 +74,7 @@ type DragState =
   | { mode: 'section-rect'; startX: number; startY: number; startClientX: number; startClientY: number; moved: boolean }
   | { mode: 'section-target'; startPx: number; startPy: number; startX: number; startY: number; startClientX: number; startClientY: number; moved: boolean }
 
-export default function MapViewer({ clicks, setClicks }: MapViewerProps) {
+export default function MapViewer({ clicks, setClicks, sections, setSections }: MapViewerProps) {
   const [mapDir, setMapDir] = useState('')
   const [meta, setMeta] = useState<MapMetadata | null>(null)
   const [error, setError] = useState<string | null>(null)
@@ -82,7 +84,6 @@ export default function MapViewer({ clicks, setClicks }: MapViewerProps) {
   const [pendingPoint, setPendingPoint] = useState<PendingPoint | null>(null)
 
   const [sectionMode, setSectionMode] = useState(false)
-  const [sections, setSections] = useState<Section[]>([])
   const [pendingRect, setPendingRect] = useState<PendingRect | null>(null)
   const [pendingTarget, setPendingTarget] = useState<PendingPoint | null>(null)
   const [popupSection, setPopupSection] = useState<Section | null>(null)

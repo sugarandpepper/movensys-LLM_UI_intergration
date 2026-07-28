@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
-import type { ClickPoint } from '../types'
+import type { ClickPoint, Section } from '../types'
 
 interface ChatMessage {
   role: 'user' | 'assistant'
@@ -22,9 +22,10 @@ function formatMessageText(text: string): string {
 
 interface ChatPanelProps {
   clicks: ClickPoint[]
+  sections: Section[]
 }
 
-export default function ChatPanel({ clicks }: ChatPanelProps) {
+export default function ChatPanel({ clicks, sections }: ChatPanelProps) {
   const [messages, setMessages] = useState<ChatMessage[]>([])
   const [input, setInput] = useState('')
   const [connected, setConnected] = useState(false)
@@ -55,11 +56,20 @@ export default function ChatPanel({ clicks }: ChatPanelProps) {
     const points = [...clicks].reverse()
     const kind: ChatMessage['kind'] = points.length > 0 ? 'command' : 'chat'
 
+    // Sections (S1, S2, ...) resolve the same way marked points do -- go('S1')
+    // on the model side needs a checked_pos_list entry to resolve against, same
+    // as go('A') does for a marked point (see chat_v2_node.resolve_go_zone).
+    // Sent on every message regardless of `points`/`kind` so a zone is
+    // resolvable even when the user hasn't also marked a point on the map.
+    const sectionPoints = sections.map((s) => ({
+      label: s.name, x: s.target.x, y: s.target.y, yaw: s.target.yaw,
+    }))
+
     setMessages((prev) => [...prev, { role: 'user', text, kind, points }])
     wsRef.current.send(JSON.stringify({
       type: 'chat',
       text,
-      points: points.map((p) => ({ label: p.label, x: p.x, y: p.y, yaw: p.yaw })),
+      points: [...points.map((p) => ({ label: p.label, x: p.x, y: p.y, yaw: p.yaw })), ...sectionPoints],
     }))
     setInput('')
   }

@@ -263,6 +263,12 @@ def resolve_go_zone(cmd: str, checked_pos_list: list[NamedPoint]) -> str:
     user pointed at a specific spot on the map rather than asking for the
     general zone. If no marked point has that label, the command is left
     untouched and still resolves to the predefined zone downstream.
+
+    Matched case-insensitively -- the model echoes whatever casing the user
+    typed in chat (e.g. "s1으로 가줘" -> go('s1')), while marked labels are
+    always a fixed case (A, B, C... / S1, S2... from pointLabel/genSectionId
+    on the frontend), so a case-sensitive match would silently fail to
+    resolve any label the user didn't happen to capitalize correctly.
     """
     m = re.search(r"go\(\s*['\"]([^'\"]+)['\"]\s*\)", cmd)
     if not m:
@@ -270,7 +276,7 @@ def resolve_go_zone(cmd: str, checked_pos_list: list[NamedPoint]) -> str:
 
     label = m.group(1)
     for p in checked_pos_list:
-        if p.label == label:
+        if p.label.lower() == label.lower():
             return f'go({p.x:.4f}, {p.y:.4f}, {p.yaw:.4f})'
     return cmd
 
